@@ -4,3 +4,4 @@ flask-SQLAlchemy
 flask-migrate
 flask-login
 flask-bootstrap
+pytest
