@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError, IntegerField
 from wtforms.validators import DataRequired, Email, EqualTo
-from server.models import User
+from server.models import User, Feeder
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -25,3 +25,33 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+
+class PetFeederRegistrationForm(FlaskForm):
+    name = StringField('feedername', validators=[DataRequired()])
+    submit = SubmitField('Add')
+    # def validate_name(self, name):
+    #     feeder = Feeder.query.filter_by(name=name).first()
+    #     if feeder is not None:
+    #         new_feeder = False
+
+class FeedMomentRegistrationForm(FlaskForm):
+    hour = IntegerField('hour', validators= [DataRequired()])
+    minute = IntegerField('minute', validators= [DataRequired()])
+    amount = IntegerField('amount', validators= [DataRequired()])
+    submit = SubmitField('Add')
+
+    def validate_hour(self,hour):
+        hour = hour.data
+        if not (hour >= 0 and hour < 24):
+            raise ValidationError('enter valid time')
+
+    def validate_minute(self,minute):
+        minute = minute.data
+        if not ( minute >=0 and minute < 60):
+            raise ValidationError('enter valid time')
+
+    def validate_amount(self,amount):
+        amount = amount.data
+        if not ( amount > 0 and amount < 100): #arbitrary upper limit!
+            raise ValidationError('enter valid amount')

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h1>Welcome!</h1>
+
+
+{%for feeder in feeders%}
+<p>
+<a href="{{url_for('petfeeder', id = feeder.id)}}">{{feeder.name}}</a>
+    </p>
+{% endfor %}
+<p>
+<a href="{{url_for('add_petfeeder')}}"> Add a petfeeder</a>
+    </p>
+{% endblock %}
