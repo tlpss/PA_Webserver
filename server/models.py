@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128))
 
     feeders = db.relationship(
-        'User', secondary=FeederUsers,
+        'Feeder', secondary=FeederUsers,
         primaryjoin=(FeederUsers.c.user_id == id),
         secondaryjoin=(FeederUsers.c.feeder_id == id),
         backref=db.backref('users', lazy='dynamic'), lazy='dynamic')

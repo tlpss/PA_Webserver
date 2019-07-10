@@ -31,15 +31,16 @@ class UserModelCase(unittest.TestCase):
         self.assertTrue(len(feeder.feed_moments.all()) == 2)
         self.assertTrue(feeder.feed_moments[0].amount == 1)
 
-    #TODO: finish this test (db relation issues)
+
     def test_Feeder_User(self):
         user1 = User(username="test1")
         user2 = User(username="test2")
 
         feeder = Feeder(modified=False)
+        feeder.users.append(user1)
+        user2.feeders.append(feeder)
 
-        user1.feeders.append(feeder)
-        #user2.feeders.append(feeder)
+        self.assertTrue( len(feeder.users.all()) == 2)
 
 
 
