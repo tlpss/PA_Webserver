@@ -1,8 +1,8 @@
-from server import app, login
+from server import app, db
 from flask_login import current_user, login_user, logout_user
 
 from server.models import User
-from server.forms import LoginForm
+from server.forms import LoginForm, RegistrationForm
 from flask import render_template, redirect, url_for, request, flash
 from werkzeug.urls import url_parse
 
@@ -27,9 +27,26 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('index')
         return redirect(next_page)
+    return render_template('login.html', title='Sign In', form=form)
+
 
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/register')
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)

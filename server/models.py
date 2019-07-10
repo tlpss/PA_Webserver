@@ -41,7 +41,7 @@ class Feeder(db.Model):
         return f'Feeder {self.id}'
 
     def get_lastupdate(self):
-        return self.feed_moments.order_by(FeedMoment.last_updated.desc()).all()[0].last_updated
+        return self.feed_moments.order_by(FeedMoment.last_updated.desc()).first().last_updated
 
     def get_next_moment(self):
         now  = datetime.now()
