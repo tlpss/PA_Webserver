@@ -37,6 +37,7 @@ class Feeder(db.Model):
     id = db.Column(db.Integer, primary_key= True)
     name = db.Column(db.String)
     feed_moments = db.relationship('FeedMoment',backref = 'Feeder', lazy= 'dynamic')
+    secret_key = db.Column(db.String)
 
     def __repr__(self):
         return f'Feeder {self.id}'
@@ -64,6 +65,8 @@ class FeedMoment(db.Model):
     def __repr__(self):
         return f'FeedMoment {self.Feeder} - {self.feed_time}'
 
+    def get_json_dict(self):
+        return {'feed_time' : self.getFeedTime(), 'amount' : self.amount, 'last_updated' : self.last_updated}
 
     def setFeedTime(self,hours, minutes):
         self.feed_time = hours * 60 + minutes

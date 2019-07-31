@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError, IntegerField, HiddenField
 from wtforms.validators import DataRequired, Email, EqualTo
 from server.models import User, Feeder
 class LoginForm(FlaskForm):
@@ -28,18 +28,16 @@ class RegistrationForm(FlaskForm):
 
 
 class PetFeederRegistrationForm(FlaskForm):
-    name = StringField('feedername', validators=[DataRequired()])
-    submit = SubmitField('Add')
-    # def validate_name(self, name):
-    #     feeder = Feeder.query.filter_by(name=name).first()
-    #     if feeder is not None:
-    #         new_feeder = False
+    secret_key = StringField('Feeder Key', validators=[DataRequired()])
+    name = StringField('name',validators=[DataRequired()])
+    submit = SubmitField('Add Feeder')
+
 
 class FeedMomentRegistrationForm(FlaskForm):
     hour = IntegerField('hour', validators= [DataRequired()])
     minute = IntegerField('minute', validators= [DataRequired()])
     amount = IntegerField('amount', validators= [DataRequired()])
-    submit = SubmitField('Add')
+    submit = SubmitField('Add Moment')
 
     def validate_hour(self,hour):
         hour = hour.data

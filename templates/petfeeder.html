@@ -6,7 +6,7 @@
 
 {%for feedmoment in feedmoments%}
 <p>
-{{feedmoment.getFeedTime()['hours']}}:{{ feedmoment.getFeedTime()['minutes']}} -> {{feedmoment.amount}} g | <a href="{{url_for('delete_feedmoment',id = feeder.id, moment_id = feedmoment.feedmoment_id)}}">delete {{feed}}</a>
+{{feedmoment.getFeedTime()['hours']}}:{{ feedmoment.getFeedTime()['minutes']}} -> {{feedmoment.amount}} g | {{feedmoment.last_updated}}| <a href="{{url_for('delete_feedmoment',id = feeder.id, moment_id = feedmoment.feedmoment_id)}}">delete {{feed}}</a>
     </p>
 {% endfor %}
 <p>
