@@ -45,15 +45,40 @@ class Feeder(db.Model):
     def get_lastupdate(self):
         return self.feed_moments.order_by(FeedMoment.last_updated.desc()).first().last_updated
 
-    def get_next_moment(self):
-        now  = datetime.now()
-        current = now.hour*60  +now.minute
+    def get_next_moment(self,time= None):
+        if time is None:
+            now  = datetime.now()
+            current = now.hour*60  +now.minute
+        else:
+            current = time
         print(current)
         result  = self.feed_moments.filter(FeedMoment.feed_time > current).order_by(FeedMoment.feed_time).all()
         if len(result) > 0:
             return result[0]
         else:
-            return self.feed_moments.order_by(FeedMoment.feed_time).all()[0] # last feedmoment of the day , next moment is first of next day
+            list = self.feed_moments.order_by(FeedMoment.feed_time).all() # last feedmoment of the day , next moment is first of next day
+            if len(list)> 0:
+                return list[0]
+            else:
+                return FeedMoment(amount= 0) # placeholder
+
+    def get_all_moments_updated_between(self, first, second):
+        list = []
+        print(first)
+        print(second)
+        for moment in self.feed_moments:
+            #print(moment)
+            #list.append(moment.get_json_dict())
+            #print(moment.last_updated > first)
+            #print(moment.last_updated < second)
+            if moment.last_updated >= first and moment.last_updated <= second:
+                list.append(moment.get_json_dict())
+        return list
+
+
+    def get_feeder_from_hash(hash):
+        #TODO: this is a test implementation for plaintext
+        return Feeder.query.filter_by(name = hash).first()
 
 class FeedMoment(db.Model):
     feeder_id = db.Column(db.Integer, db.ForeignKey('feeder.id'))

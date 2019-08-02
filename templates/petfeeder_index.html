@@ -3,13 +3,21 @@
 {% block app_content %}
     <h1>Welcome!</h1>
 
-
+<table class="table table-striped table-dark">
+  <thead>
+    <tr>
+      <th>Feeder</th>
+    </tr>
+  </thead>
+    <tbody>
 {%for feeder in feeders%}
-<p>
+    <td>
 <a href="{{url_for('petfeeder', id = feeder.id)}}">{{feeder.name}}</a>
-    </p>
+</td>
 {% endfor %}
-<p>
+<td>
 <a href="{{url_for('add_petfeeder')}}"> Add a petfeeder</a>
-    </p>
+    </td>
+    </tbody>
+</table>
 {% endblock %}

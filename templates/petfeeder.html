@@ -3,14 +3,31 @@
 {% block app_content %}
     <h1>Feedmoments for: {{feeder.name}}</h1>
 
-
+<table class="table table-striped table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Time</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Last-update</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+    <tbody>
 {%for feedmoment in feedmoments%}
-<p>
-{{feedmoment.getFeedTime()['hours']}}:{{ feedmoment.getFeedTime()['minutes']}} -> {{feedmoment.amount}} g | {{feedmoment.last_updated}}| <a href="{{url_for('delete_feedmoment',id = feeder.id, moment_id = feedmoment.feedmoment_id)}}">delete {{feed}}</a>
-    </p>
-{% endfor %}
-<p>
 
+
+<tr>
+    <th scope="row">{{feedmoment.getFeedTime()['hours']}}:{{ feedmoment.getFeedTime()['minutes']}}</th>
+    <td>{{feedmoment.amount}}</td>
+    <td>{{feedmoment.last_updated}}</td>
+    <td><a href="{{url_for('delete_feedmoment',id = feeder.id, moment_id = feedmoment.feedmoment_id)}}">delete {{feed}}</a></td>
+</tr>
+
+
+{% endfor %}}
+
+
+      </tbody>
+</table>
 <a href="{{url_for('add_feedmoment', id  = feeder.id)}}"> Add a FeedMoment</a>
-    </p>
 {% endblock %}
