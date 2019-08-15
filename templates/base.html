@@ -23,10 +23,16 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('petfeeder_index') }}">PetFeeder</a></li>
                 </ul>
+                <ul class="nav navbar-nav">
+
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_anonymous %}
                         <li><a href="{{ url_for('login') }}">Login</a></li>
                     {% else %}
+                        {% if current_user.admin %}
+                             <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
+                        {% endif %}
                         <li><a href="{{ url_for('index', username=current_user.username) }}">Profile</a></li>
                         <li><a href="{{ url_for('logout') }}">Logout</a></li>
                     {% endif %}
