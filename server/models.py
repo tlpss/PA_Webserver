@@ -35,9 +35,10 @@ def load_user(id):
 
 class Feeder(db.Model):
     id = db.Column(db.Integer, primary_key= True)
-    name = db.Column(db.String)
+    name = db.Column(db.String(120))
     feed_moments = db.relationship('FeedMoment',backref = 'Feeder', lazy= 'dynamic')
-    secret_key = db.Column(db.String)
+    secret_key = db.Column(db.String(120))
+    desc = db.Column(db.String(240))
 
     def __repr__(self):
         return f'Feeder {self.id}'
