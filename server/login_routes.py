@@ -11,7 +11,6 @@ from werkzeug.urls import url_parse
 def index():
     return render_template('index.html')
 
-@app.route('/login')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
