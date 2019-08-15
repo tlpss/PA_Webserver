@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from config import  Config
-
+from flask_debug import Debug
 from os.path import  dirname
 
 
@@ -19,6 +19,8 @@ db = SQLAlchemy(app)
 migrate = Migrate(app,db)
 login = LoginManager(app)
 login.login_view = 'login'  # function that handles login ( whereto redirect)
+
+Debug(app)
 
 bootstrap = Bootstrap(app)
 
