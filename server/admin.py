@@ -12,7 +12,7 @@ class MyModelView(ModelView):
         flash("please login with an admin account to access the admin section")
         return redirect(url_for('login',next = 'admin'))
 
-
+#TODO: facilitate creation by entering plain text keys instead of hashes
 class MyIndexView(AdminIndexView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.admin

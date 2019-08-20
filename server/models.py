@@ -64,7 +64,7 @@ class Feeder(db.Model):
             else:
                 return FeedMoment(amount= 0) # placeholder
 
-    def get_all_moments_updated_between(self, first, second):
+    def get_all_moments_updated_between(self, first, second, json = True):
         list = []
         print(first)
         print(second)
@@ -74,7 +74,10 @@ class Feeder(db.Model):
             #print(moment.last_updated > first)
             #print(moment.last_updated < second)
             if moment.last_updated >= first and moment.last_updated <= second:
-                list.append(moment.get_json_dict())
+                if json:
+                    list.append(moment.get_json_dict())
+                else:
+                    list.append(moment.get_raw_format())
         return list
 
 
@@ -94,6 +97,10 @@ class FeedMoment(db.Model):
 
     def get_json_dict(self):
         return {'feed_time' : self.getFeedTime(), 'amount' : self.amount, 'last_updated' : self.last_updated}
+
+    def get_raw_format(self):
+        unix_time = (self.last_updated - datetime(1970,1,1)).total_seconds()
+        return str(self.feed_time) + '-'+str(self.amount) + '-'+ str(unix_time)
 
     def setFeedTime(self,hours, minutes):
         self.feed_time = hours * 60 + minutes
