@@ -6,6 +6,7 @@ from server.forms import PetFeederRegistrationForm, ValidationError, FeedMomentR
 from flask import render_template, redirect, url_for, request, flash, jsonify
 from werkzeug.urls import url_parse
 from datetime import datetime
+from server.utils import unix_to_datetime
 
 @app.route('/petfeeder')
 @login_required
@@ -127,7 +128,11 @@ def api_raw(hash):
     feeder = Feeder.get_feeder_from_hash(hash)
     if not feeder is None:
         time = request.args.get('last_update')
-        time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S.%f')
+        try:
+            time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S.%f')
+        except:
+            time  = unix_to_datetime(float(time))
+            print(time)
         feedmoment = feeder.get_next_moment()
         moment_time = feedmoment.last_updated
         if moment_time > time:
