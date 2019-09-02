@@ -141,3 +141,24 @@ def api_raw(hash):
         else:
             # TODO: encrypt
             return ''
+
+@app.route('/petfeeder/api/raw/unix/<hash>')
+def api_raw(hash):
+    """
+        :param hash: hash of the secret key of a feeder
+        :return: returns all feedmoments of the hashed feeder with update-timestamps between the timestamp in the url
+        and the timestamp of the next feedmoment (both included)
+        """
+    feeder = Feeder.get_feeder_from_hash(hash)
+    if not feeder is None:
+        time = request.args.get('last_update')
+        time = unix_to_datetime(float(time))
+        print(time)
+        feedmoment = feeder.get_next_moment()
+        moment_time = feedmoment.last_updated
+        if moment_time > time:
+            # TODO: encrypt
+            return str(feeder.get_all_moments_updated_between(time, moment_time,json=False))
+        else:
+            # TODO: encrypt
+            return ''
