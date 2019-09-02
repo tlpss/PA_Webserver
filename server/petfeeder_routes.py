@@ -143,7 +143,7 @@ def api_raw(hash):
             return ''
 
 @app.route('/petfeeder/api/raw/unix/<hash>')
-def api_raw(hash):
+def api_raw_unix(hash):
     """
         :param hash: hash of the secret key of a feeder
         :return: returns all feedmoments of the hashed feeder with update-timestamps between the timestamp in the url
