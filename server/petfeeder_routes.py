@@ -162,3 +162,15 @@ def api_raw_unix(hash):
         else:
             # TODO: encrypt
             return ''
+        
+@app.route('/petfeeder/api/raw/unix/next_moment/<hash>')
+def api_raw_unix_nextMoment(hash):
+    """
+    param: hash of secret key for feeder
+    :return: next moment & amount 
+
+    this function serves as a simplified acces point, and disregards all information about update times. It hence does not facilitate caching.
+    """
+    feeder = Feeder.get_feeder_from_hash(hash)
+    if not feeder is None:
+        return str(feeder.get_next_moment().get_raw_format())
