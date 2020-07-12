@@ -173,4 +173,4 @@ def api_raw_unix_nextMoment(hash):
     """
     feeder = Feeder.get_feeder_from_hash(hash)
     if not feeder is None:
-        return str(list(feeder.get_next_moment().get_raw_format()))
+        return str([feeder.get_next_moment().get_raw_format()])
